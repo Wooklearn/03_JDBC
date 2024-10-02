@@ -1,9 +1,12 @@
 package com.ohgiraffers.practice;
 
+import com.ohgiraffers.model.dto.EmployeeDTO;
+
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import static com.ohgiraffers.common.JDBCTemplate.getConnection;
@@ -13,24 +16,37 @@ public class Application {
 
         Connection con = getConnection();
 
-        PreparedStatement pstmt = null;
+        Statement stmt = null;
 
-        int result = 0;
+        ResultSet rset = null;
 
         Properties prop = new Properties();
 
+        EmployeeDTO empDTO = null;
+
+        List<EmployeeDTO> empList = null;
+
+        String query = "SELECT * FROM EMPLOYEE";
+
         try {
-            prop.loadFromXML(new FileInputStream("src/java/com/ohgiraffers/config/connection-info.properties"));
-        } catch (IOException e) {
+            rset = stmt.executeQuery(query);
+            empList = new ArrayList<>();
+
+            while(rset.next()){
+                empDTO.setEMP_ID("1");
+
+            }
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
 
 
     }
 
 
-
+//-- 모든 행 모든 컬럼 조회
+//-- EMPLOYEE테이블에서 모든 정보 조회
 
 
 
