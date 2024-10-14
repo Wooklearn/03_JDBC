@@ -11,17 +11,22 @@ public class JDBCTemplate {
 
         Connection con = null;
 
-        Properties prop = new Properties();
+        Properties prop = null;
 
         try {
-            prop.load(new FileReader("src/java/com/ohgiraffers/config/connection-info.properties"));
+            prop.load(new FileReader(
+                    "src/main/java/com/ohgiraffers/config/config-query.properties"
+            ));
 
             String driver = prop.getProperty("driver");
             String url = prop.getProperty("url");
 
             Class.forName(driver);
 
-            con = DriverManager.getConnection(url, prop);
+            con = DriverManager.getConnection(url,prop);
+
+
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -32,34 +37,41 @@ public class JDBCTemplate {
         }
 
         return con;
+
     }
 
-    public static void close(Connection con) {
+    public static void close (Connection con){
         try {
-            if (con != null & con.isClosed()) {
+            // con 의 값이 null 값이더라도 con.isClosed 를 통해 통로 닫아주기
+            // & 하나는 앞이 거짓이라도 뒤에 조건을 실행시켜주겠다는 의미
+            if (con != null & con.isClosed()){
+                con.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void close(Statement stmt) {
+    public static void close (Statement stmt){
         try {
-            if (stmt != null & stmt.isClosed()) {
+
+            if (stmt != null & stmt.isClosed()){
+                stmt.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void close(ResultSet rset) {
+    public static void close (ResultSet rset){
         try {
-            if (rset != null & rset.isClosed()) {
+
+            if (rset != null & rset.isClosed()){
+                rset.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 }
